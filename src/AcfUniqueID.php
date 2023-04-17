@@ -15,7 +15,7 @@ final class AcfUniqueID extends \acf_field
 
         $this->defaults = [
             'unique_id_length' => 4,
-            'unique_id_debug' => 1,
+            'unique_id_debug' => false,
             'unique_id_groups_count' => 4,
             'unique_id_separator' => '-',
         ];

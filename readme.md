@@ -11,7 +11,13 @@ An ACF field type that generates a unique ID.
 
 ### Field options
 
-By default, the generated field gives you a random 16 character string, separated by dashes. You can change the length of the string, and the separator in the field options.
+By default, the generated field gives you a random 16 character string, separated by dashes similar to this:
+
+```
+ade5-8d58-b319-1678
+```
+
+You can change the length of the string, and the separator in the field options.
 
 Also, you can enable debug, so the field will be visible in the admin area, and you can see the generated ID.
 
