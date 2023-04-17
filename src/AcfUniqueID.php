@@ -14,8 +14,10 @@ final class AcfUniqueID extends \acf_field
         $this->category = 'basic';
 
         $this->defaults = [
-            'unique_id_length' => 12,
-            'unique_id_debug' => false,
+            'unique_id_length' => 4,
+            'unique_id_debug' => 1,
+            'unique_id_groups_count' => 4,
+            'unique_id_separator' => '-',
         ];
 
         $this->settings = [];
@@ -29,6 +31,19 @@ final class AcfUniqueID extends \acf_field
             'label' => __('Unique ID length'),
             'type' => 'number',
             'name' => 'unique_id_length',
+            'max' => 256,
+        ]);
+
+        acf_render_field_setting($field, [
+            'label' => __('How many groups?'),
+            'type' => 'number',
+            'name' => 'unique_id_groups_count',
+        ]);
+
+        acf_render_field_setting($field, [
+            'label' => __('Unique ID separator'),
+            'type' => 'text',
+            'name' => 'unique_id_separator',
         ]);
 
         acf_render_field_setting($field, [
@@ -46,7 +61,15 @@ final class AcfUniqueID extends \acf_field
             return $value;
         }
 
-        return substr(hash('sha256', (maybe_serialize($field) . microtime() . uniqid('', true))), 0, $field['unique_id_length']);
+        $value = [];
+
+        for ($i = 0; $i < $field['unique_id_length']; $i++) {
+            $str = hash('sha256', ($i . maybe_serialize($field) . microtime() . uniqid('', true)));
+
+            $value[] = substr($str, 0, $field['unique_id_length']);
+        }
+
+        return implode($field['unique_id_separator'], $value);
     }
 
     function render_field($field)
