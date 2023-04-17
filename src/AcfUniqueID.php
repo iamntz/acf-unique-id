@@ -13,40 +13,53 @@ final class AcfUniqueID extends \acf_field
         $this->label = __('Unique ID');
         $this->category = 'basic';
 
-        $this->defaults = [];
+        $this->defaults = [
+            'unique_id_length' => 12,
+            'unique_id_debug' => false,
+        ];
+
         $this->settings = [];
 
         parent::__construct();
-
-        add_filter('acf/field_wrapper_attributes', [$this, '_alterFieldWrapper'], 10, 2);
     }
 
-    public function _alterFieldWrapper($wrapper, $field)
+    public function render_field_settings($field)
     {
-        if ($field['type'] !== $this->name) {
-            return $wrapper;
+        acf_render_field_setting($field, [
+            'label' => __('Unique ID length'),
+            'type' => 'number',
+            'name' => 'unique_id_length',
+        ]);
+
+        acf_render_field_setting($field, [
+            'label' => __('Enable Debug'),
+            'instructions' => 'Enabling this will show the field value as a text input instead of a hidden input.',
+            'name' => 'unique_id_debug',
+            'type' => 'true_false',
+            'ui' => 1,
+        ]);
+    }
+
+    public function update_value($value, $post_id, $field)
+    {
+        if (!empty($value)) {
+            return $value;
         }
 
-        if (!empty($field['value'])) {
-            $wrapper['id'] = 'f-' . $field['value'];
-        }
-
-        return $wrapper;
+        return substr(hash('sha256', (maybe_serialize($field) . microtime() . uniqid('', true))), 0, $field['unique_id_length']);
     }
 
     function render_field($field)
     {
-        $value = $field['value'] ?? '';
-        $value = $value ?: substr(hash('sha256', (microtime() . uniqid('', true))), 0, 12);
+        if (!$field['unique_id_debug']) {
+            echo '<style> .acf-field[data-type="ntz_unique_id"] {display: none !important;}</style>';
+        }
 
-        ?>
-        <style> .acf-field[data-type="ntz_unique_id"] {display: none !important;}</style>
-        <?php
-
-        printf('<input type="hidden" name="%s" value="%s"><span id="f-%s"></span>',
+        printf('<input type="%s" name="%s" value="%s"><span id="f-%s"></span>',
+            $field['unique_id_debug'] ? 'text' : 'hidden',
             esc_attr($field['name']),
-            esc_attr($value),
-            esc_attr($value)
+            esc_attr($field['value']),
+            esc_attr($field['value'])
         );
     }
 }
