@@ -9,6 +9,13 @@ An ACF field type that generates a unique ID.
 3. Activate the plugin via the Plugins admin page
 4. Create a new field via ACF and select the Unique ID type
 
+### Composer instalation
+
+`composer require iamntz/acf-unique-id`
+
+In your theme/plugin, include it:
+
+
 ### Field options
 
 By default, the generated field gives you a random 16 character string, separated by dashes similar to this:

@@ -6,8 +6,8 @@
     "php": ">=7.4"
   },
   "autoload": {
-    "files": [
-      "index.php"
-    ]
+    "psr-4": {
+      "iamntz\\acf\\unique_id\\": "src/acf/acf-unique-id"
+    }
   }
 }
