@@ -7,7 +7,7 @@
   },
   "autoload": {
     "psr-4": {
-      "iamntz\\acf\\unique_id\\": "src/acf/acf-unique-id"
+      "iamntz\\acf\\unique_id\\": "src/acf/unique_id"
     }
   }
 }

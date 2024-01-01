@@ -1,6 +1,5 @@
 <?php
 
-
 namespace iamntz\acf\unique_id;
 
 !defined('ABSPATH') && die();
