@@ -4,7 +4,7 @@ namespace iamntz\acf\unique_id;
 
 !defined('ABSPATH') && die();
 
-class Init
+class InitAcfUniqueID
 {
     public function __construct() {
         add_action('acf/include_field_types',  [$this, 'register_field']);

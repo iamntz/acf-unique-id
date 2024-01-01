@@ -13,8 +13,9 @@ An ACF field type that generates a unique ID.
 
 `composer require iamntz/acf-unique-id`
 
-In your theme/plugin, include it:
+Then in your theme/plugin, init by `new iamntz\acf\unique_id\InitAcfUniqueID();`
 
+---
 
 ### Field options
 
