@@ -6,6 +6,8 @@ namespace iamntz\acf\unique_id;
 
 final class AcfUniqueID extends \acf_field
 {
+    private static int $index = 0;
+
     public function __construct()
     {
         $this->name = 'ntz_unique_id';
