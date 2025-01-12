@@ -68,17 +68,17 @@ final class AcfUniqueID extends \acf_field
         }
 
         $value = [
-            $field['unique_id_prefix'] ?? ''
+            $field['unique_id_prefix'] ?? '',
         ];
 
-        for ($i = 0; $i < $field['unique_id_length']; $i++) {
+        for ($i = 0; $i < max(1, $field['unique_id_groups_count']); $i++) {
             $str = hash('sha256', ($i . maybe_serialize($field) . microtime() . uniqid('', true)));
-            $value[] =  substr($str, 0, $field['unique_id_length']);
+            $value[] = microtime() . uniqid(($field['key'] . $field['name']), true);
         }
 
         $value = array_filter(apply_filters('ntz/acf/unique-id', $value, $post_id, $field));
 
-        return implode($field['unique_id_separator'], $value);
+        return substr(hash('sha256', implode($field['unique_id_separator'], $value)), 0, $field['unique_id_length']) . '_' . self::$index++;
     }
 
     public function render_field($field): void
